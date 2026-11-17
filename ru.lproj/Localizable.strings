@@ -1,0 +1,33 @@
+/* Menu */
+"Allow Sleep" = "Разрешить сон";
+"macOS default" = "Как обычно в macOS";
+"Stay Awake" = "Не засыпать";
+"By Rule" = "По правилу";
+"Quit" = "Выйти";
+
+/* Rule settings */
+"All day" = "Весь день";
+"From" = "С";
+"To" = "До";
+"Only on Wi-Fi" = "Только при Wi-Fi";
+"Only on power adapter" = "Только от сети";
+
+/* Rule summaries */
+"No days selected" = "Дни не выбраны";
+"Always" = "Всегда";
+"Every day" = "Каждый день";
+"Weekdays" = "По будням";
+"Weekends" = "По выходным";
+"on Wi-Fi" = "при Wi-Fi";
+"on power" = "от сети";
+
+/* Menu bar icon */
+"Awake" = "Не засыпает";
+"Sleep" = "Засыпает";
+"Paused: %@" = "На паузе: %@";
+"no Wi-Fi" = "нет Wi-Fi";
+"on battery" = "работает от батареи";
+"off schedule" = "вне расписания";
+"Mac stays awake, even with the lid closed" = "Mac не уснёт, даже с закрытой крышкой";
+"Mac stays awake by your rule, even with the lid closed" = "Mac не уснёт по вашему правилу, даже с закрытой крышкой";
+"Mac sleeps as usual" = "Mac засыпает как обычно";
