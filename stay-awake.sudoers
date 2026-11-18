@@ -1,3 +1,6 @@
-# Lets Stay Awake switch disablesleep without a password. Only these two exact commands are allowed.
-# Replace YOUR_USERNAME with your macOS username (`whoami`); the README has a one-liner that does it.
+# Obsolete. The app no longer reads this file and no longer runs pmset through an admin rule.
+# If a previous install copied it onto the Mac, remove that copy:
+#   rm /etc/sudoers.d/stay-awake
+# as an administrator, after `visudo -c` if you want to check the file first.
+# The line below is the old rule, kept so it can be recognised.
 YOUR_USERNAME ALL=(root) NOPASSWD: /usr/bin/pmset -a disablesleep 0, /usr/bin/pmset -a disablesleep 1

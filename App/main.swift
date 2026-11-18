@@ -13,24 +13,9 @@ private func L(_ key: String) -> String {
 // The language the app's strings are shown in, so dates and times match the text around them.
 private let appLocale = Locale(identifier: Bundle.main.preferredLocalizations.first ?? "en")
 
-private enum Mode: String {
-    case sleep, awake, custom
-}
+typealias Mode = SleepMode
 
-// When Stay Awake holds: on the selected days and hours, optionally only on Wi-Fi or on power.
-private struct Schedule {
-    var days: Int // bit (weekday - 1) per day, Sunday = bit 0
-    var allDay: Bool
-    var start: Int // minutes from midnight
-    var end: Int
-    var wifi: Bool
-    var power: Bool
-
-    static let weekdays = 0b0111110
-    static let everyDay = 0b1111111
-    static let standard = Schedule(days: weekdays, allDay: false, start: 8 * 60, end: 20 * 60, wifi: true, power: false)
-    static let customDefault = Schedule(days: everyDay, allDay: true, start: 8 * 60, end: 20 * 60, wifi: false, power: false)
-
+extension Schedule {
     static var custom: Schedule {
         let defaults = UserDefaults.standard
         return Schedule(
@@ -43,27 +28,20 @@ private struct Schedule {
         )
     }
 
-    func hasDay(_ weekday: Int) -> Bool {
-        days & (1 << (weekday - 1)) != 0
-    }
-
     func pauseReason(at now: Date, wifiConnected: () -> Bool, onPower: () -> Bool) -> String? {
-        if wifi && !wifiConnected() { return L("no Wi-Fi") }
-        if power && !onPower() { return L("on battery") }
-        if !isScheduled(at: now) { return L("off schedule") }
-        return nil
-    }
-
-    private func isScheduled(at now: Date) -> Bool {
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: now)
         let minute = calendar.component(.hour, from: now) * 60 + calendar.component(.minute, from: now)
-        if allDay || start == end { return hasDay(weekday) }
-        if start < end { return hasDay(weekday) && (start..<end).contains(minute) }
-        // Overnight range: the part after midnight belongs to the previous day's schedule.
-        if minute >= start { return hasDay(weekday) }
-        if minute < end { return hasDay(weekday == 1 ? 7 : weekday - 1) }
-        return false
+        switch pause(weekday: weekday, minute: minute, wifiConnected: wifiConnected(), onPower: onPower()) {
+        case nil:
+            return nil
+        case .noWifi:
+            return L("no Wi-Fi")
+        case .onBattery:
+            return L("on battery")
+        case .offSchedule:
+            return L("off schedule")
+        }
     }
 
     var summary: String {
@@ -294,8 +272,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let customHoursItem = NSMenuItem()
     private let customConditionsItem = NSMenuItem()
     private let quitItem = NSMenuItem()
+    private let daemonClient = DaemonClient()
     private var timer: Timer?
     private var hotKeyRef: EventHotKeyRef?
+    private var didPromptForDaemonApproval = false
+    private var isTerminating = false
 
     private var mode: Mode {
         get { UserDefaults.standard.string(forKey: "mode").flatMap(Mode.init) ?? .awake }
@@ -307,7 +288,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let select: (Mode) -> () -> Void = { mode in
             { [weak self] in
                 self?.mode = mode
-                self?.apply(askPassword: true)
+                self?.apply(userInitiated: true)
             }
         }
         sleepItem.view = NSHostingView(rootView: MenuRow(
@@ -342,17 +323,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem.menu = menu
 
         registerLoginItem()
-        apply(askPassword: false)
+        registerDaemon()
+        apply(userInitiated: false)
         // Wi-Fi, power and the clock change on their own, so re-check them regularly.
         timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
-            self?.apply(askPassword: false)
+            self?.apply(userInitiated: false)
         }
         // Mode and Custom settings take effect as soon as they change in the menu.
         NotificationCenter.default.addObserver(
             forName: UserDefaults.didChangeNotification, object: nil, queue: .main
         ) { [weak self] _ in
-            self?.apply(askPassword: false)
+            self?.apply(userInitiated: false)
         }
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        isTerminating = true
+        // The helper also allows sleep when this connection drops. Ask explicitly first.
+        if SMAppService.daemon(plistName: SleepDaemon.plistName).status == .enabled {
+            _ = daemonClient.setDisablesleep(false, waitUpTo: 3)
+        }
+        return .terminateNow
     }
 
     // Global ⌃⌥⌘S via Carbon: works from any app and needs no Accessibility permission.
@@ -360,7 +351,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         var eventType = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         InstallEventHandler(GetApplicationEventTarget(), { _, _, userData in
             guard let userData else { return noErr }
-            Unmanaged<AppDelegate>.fromOpaque(userData).takeUnretainedValue().toggleMode()
+            let delegate = Unmanaged<AppDelegate>.fromOpaque(userData).takeUnretainedValue()
+            DispatchQueue.main.async {
+                delegate.toggleMode()
+            }
             return noErr
         }, 1, &eventType, Unmanaged.passUnretained(self).toOpaque(), nil)
 
@@ -400,7 +394,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
-        apply(askPassword: false)
+        apply(userInitiated: false)
     }
 
     private func isSleepDisabled() -> Bool {
@@ -412,50 +406,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard (try? process.run()) != nil else { return false }
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         process.waitUntilExit()
-        // The SleepDisabled line is absent until disablesleep has been set once.
-        return String(decoding: data, as: UTF8.self)
-            .split(separator: "\n")
-            .contains { $0.contains("SleepDisabled") && $0.trimmingCharacters(in: .whitespaces).hasSuffix("1") }
+        return DisablesleepCommand.sleepIsDisabled(in: String(decoding: data, as: UTF8.self))
     }
 
     // The shortcut only switches between Allow Sleep and Stay Awake; Custom is left to the menu.
     private func toggleMode() {
-        switch mode {
-        case .sleep: mode = .awake
-        case .awake: mode = .sleep
-        case .custom: mode = isSleepDisabled() ? .sleep : .awake
-        }
-        apply(askPassword: true)
+        mode = SleepPolicy.modeAfterHotkey(current: mode, sleepCurrentlyDisabled: isSleepDisabled())
+        apply(userInitiated: true)
     }
 
-    private func apply(askPassword: Bool) {
+    private func apply(userInitiated: Bool) {
+        guard !isTerminating else { return }
         let reason = pauseReason()
         let disabled = mode != .sleep && reason == nil
         if disabled != isSleepDisabled() {
-            setSleepDisabled(disabled, askPassword: askPassword)
+            let service = SMAppService.daemon(plistName: SleepDaemon.plistName)
+            if service.status != .enabled {
+                // Not approved yet: don't block the menu on a helper that cannot be reached.
+                if userInitiated {
+                    promptForDaemonApproval(force: true)
+                }
+            } else if !daemonClient.setDisablesleep(disabled, waitUpTo: 3) {
+                NSLog("Stay Awake: could not set disablesleep \(disabled ? 1 : 0)")
+                if userInitiated {
+                    promptForDaemonApproval(force: true)
+                }
+            }
         }
         refresh(pauseReason: reason)
-    }
-
-    private func setSleepDisabled(_ disabled: Bool, askPassword: Bool) {
-        let value = disabled ? 1 : 0
-        if !runPasswordlessSudo(value) && askPassword {
-            // No sudoers rule installed: ask for the admin password in the standard system dialog.
-            let script = "do shell script \"/usr/bin/pmset -a disablesleep \(value)\" with administrator privileges"
-            var error: NSDictionary?
-            NSAppleScript(source: script)?.executeAndReturnError(&error)
-        }
-    }
-
-    // Succeeds only with the rule from stay-awake.sudoers; -n fails instead of prompting.
-    private func runPasswordlessSudo(_ value: Int) -> Bool {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/sudo")
-        process.arguments = ["-n", "/usr/bin/pmset", "-a", "disablesleep", String(value)]
-        process.standardError = FileHandle.nullDevice
-        guard (try? process.run()) != nil else { return false }
-        process.waitUntilExit()
-        return process.terminationStatus == 0
     }
 
     private func refresh(pauseReason: String?) {
@@ -495,10 +473,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    // The rule only works while the app runs, so it adds itself to Login Items on every launch.
+    // The rule only works while the app runs, so it adds itself to the user session on every launch.
+    // There is no menu switch: a person turns this off only in System Settings.
     private func registerLoginItem() {
         let path = Bundle.main.bundlePath
-        // Re-register after a move or rename so Login Items points at this copy, not a stale path.
+        // Re-register after a move or rename so the registration points at this copy, not a stale path.
         if UserDefaults.standard.string(forKey: "loginItemPath") != path {
             try? SMAppService.mainApp.unregister()
         }
@@ -507,9 +486,56 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             try SMAppService.mainApp.register()
             UserDefaults.standard.set(path, forKey: "loginItemPath")
         } catch {
-            NSLog("Stay Awake: login item registration failed: \(error.localizedDescription)")
+            NSLog("Stay Awake: session registration failed: \(error.localizedDescription)")
         }
     }
+
+    private func registerDaemon() {
+        let service = SMAppService.daemon(plistName: SleepDaemon.plistName)
+        switch service.status {
+        case .notRegistered:
+            do {
+                try service.register()
+            } catch {
+                NSLog("Stay Awake: helper registration failed: \(error.localizedDescription)")
+            }
+        case .notFound:
+            NSLog("Stay Awake: helper property list was not found in the app bundle")
+        case .enabled, .requiresApproval:
+            break
+        @unknown default:
+            break
+        }
+        if service.status == .requiresApproval {
+            promptForDaemonApproval(force: false)
+        }
+    }
+
+    private func promptForDaemonApproval(force: Bool) {
+        let service = SMAppService.daemon(plistName: SleepDaemon.plistName)
+        guard service.status == .requiresApproval else { return }
+        if didPromptForDaemonApproval && !force { return }
+        didPromptForDaemonApproval = true
+        if #available(macOS 14.0, *) {
+            NSApp.activate()
+        } else {
+            NSApp.activate(ignoringOtherApps: true)
+        }
+        let alert = NSAlert()
+        alert.messageText = L("Allow the Stay Awake helper")
+        alert.informativeText = L("Stay Awake needs a one-time approval to run its helper in the background. In System Settings, allow Stay Awake under Login Items. Opening when you log in is already turned on by the app; the helper's approval is separate, and either one can be changed only in System Settings.")
+        alert.addButton(withTitle: L("Open Login Items Settings"))
+        alert.addButton(withTitle: L("Not Now"))
+        if alert.runModal() == .alertFirstButtonReturn {
+            SMAppService.openSystemSettingsLoginItems()
+        }
+    }
+}
+
+if CommandLine.arguments.contains(Uninstall.flag) {
+    _ = NSApplication.shared
+    Uninstall.run()
+    exit(0)
 }
 
 let app = NSApplication.shared
