@@ -31,3 +31,9 @@
 "Mac stays awake, even with the lid closed" = "Mac не уснёт, даже с закрытой крышкой";
 "Mac stays awake by your rule, even with the lid closed" = "Mac не уснёт по вашему правилу, даже с закрытой крышкой";
 "Mac sleeps as usual" = "Mac засыпает как обычно";
+
+/* Helper approval. There is no menu switch for opening the app at login. */
+"Allow the Stay Awake helper" = "Разрешите фоновую программу Stay Awake";
+"Stay Awake needs a one-time approval to run its helper in the background. In System Settings, allow Stay Awake under Login Items. Opening when you log in is already turned on by the app; the helper's approval is separate, and either one can be changed only in System Settings." = "Stay Awake нужно один раз разрешить фоновую программу. В Системных настройках включите Stay Awake в разделе «Объекты входа». Приложение само включается при открытии сеанса; разрешение фоновой программы отдельное, и изменить оба пункта можно только в Системных настройках.";
+"Open Login Items Settings" = "Открыть объекты входа";
+"Not Now" = "Не сейчас";

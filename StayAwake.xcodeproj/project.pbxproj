@@ -1,0 +1,537 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C10000000000000000000001 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000070 /* main.swift */; };
+		C10000000000000000000002 /* DaemonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000071 /* DaemonClient.swift */; };
+		C10000000000000000000003 /* Uninstall.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000072 /* Uninstall.swift */; };
+		C10000000000000000000004 /* XPCContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000090 /* XPCContract.swift */; };
+		C10000000000000000000005 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000A1 /* Schedule.swift */; };
+		C10000000000000000000006 /* Disablesleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000A2 /* Disablesleep.swift */; };
+		C10000000000000000000007 /* XPCClientRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000A3 /* XPCClientRequirement.swift */; };
+		C10000000000000000000010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000077 /* Localizable.strings */; };
+		C10000000000000000000020 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000B1 /* AppKit.framework */; };
+		C10000000000000000000021 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000B2 /* SwiftUI.framework */; };
+		C10000000000000000000022 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000B3 /* CoreWLAN.framework */; };
+		C10000000000000000000023 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000B4 /* IOKit.framework */; };
+		C10000000000000000000024 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000B5 /* ServiceManagement.framework */; };
+		C10000000000000000000025 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000B6 /* Carbon.framework */; };
+		C10000000000000000000030 /* StayAwakeDaemon in Copy Daemon */ = {isa = PBXBuildFile; fileRef = A10000000000000000000005 /* StayAwakeDaemon */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		C10000000000000000000031 /* com.milsinery.stay-awake.daemon.plist in Copy Launch Daemon Plist */ = {isa = PBXBuildFile; fileRef = A10000000000000000000082 /* com.milsinery.stay-awake.daemon.plist */; };
+		C10000000000000000000040 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000080 /* main.swift */; };
+		C10000000000000000000041 /* PMSetRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000081 /* PMSetRunner.swift */; };
+		C10000000000000000000042 /* XPCContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000090 /* XPCContract.swift */; };
+		C10000000000000000000043 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000A1 /* Schedule.swift */; };
+		C10000000000000000000044 /* Disablesleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000A2 /* Disablesleep.swift */; };
+		C10000000000000000000045 /* XPCClientRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000A3 /* XPCClientRequirement.swift */; };
+		C10000000000000000000050 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000B7 /* Security.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A10000000000000000000031 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A10000000000000000000003;
+			remoteInfo = StayAwakeDaemon;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A10000000000000000000013 /* Copy Daemon */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				C10000000000000000000030 /* StayAwakeDaemon in Copy Daemon */,
+			);
+			name = "Copy Daemon";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000014 /* Copy Launch Daemon Plist */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchDaemons;
+			dstSubfolderSpec = 1;
+			files = (
+				C10000000000000000000031 /* com.milsinery.stay-awake.daemon.plist in Copy Launch Daemon Plist */,
+			);
+			name = "Copy Launch Daemon Plist";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A10000000000000000000004 /* Stay Awake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stay Awake.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000005 /* StayAwakeDaemon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = StayAwakeDaemon; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000070 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A10000000000000000000071 /* DaemonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonClient.swift; sourceTree = "<group>"; };
+		A10000000000000000000072 /* Uninstall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uninstall.swift; sourceTree = "<group>"; };
+		A10000000000000000000073 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A10000000000000000000074 /* StayAwake.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StayAwake.entitlements; sourceTree = "<group>"; };
+		A10000000000000000000075 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A10000000000000000000076 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A10000000000000000000080 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A10000000000000000000081 /* PMSetRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMSetRunner.swift; sourceTree = "<group>"; };
+		A10000000000000000000082 /* com.milsinery.stay-awake.daemon.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "com.milsinery.stay-awake.daemon.plist"; sourceTree = "<group>"; };
+		A10000000000000000000083 /* StayAwakeDaemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StayAwakeDaemon.entitlements; sourceTree = "<group>"; };
+		A10000000000000000000084 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A10000000000000000000090 /* XPCContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCContract.swift; sourceTree = "<group>"; };
+		A100000000000000000000A1 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		A100000000000000000000A2 /* Disablesleep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disablesleep.swift; sourceTree = "<group>"; };
+		A100000000000000000000A3 /* XPCClientRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCClientRequirement.swift; sourceTree = "<group>"; };
+		A100000000000000000000B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		A100000000000000000000B2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A100000000000000000000B3 /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = System/Library/Frameworks/CoreWLAN.framework; sourceTree = SDKROOT; };
+		A100000000000000000000B4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		A100000000000000000000B5 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		A100000000000000000000B6 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		A100000000000000000000B7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A100000000000000000000C1 /* ExportOptions.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ExportOptions.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10000000000000000000011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C10000000000000000000020 /* AppKit.framework in Frameworks */,
+				C10000000000000000000021 /* SwiftUI.framework in Frameworks */,
+				C10000000000000000000022 /* CoreWLAN.framework in Frameworks */,
+				C10000000000000000000023 /* IOKit.framework in Frameworks */,
+				C10000000000000000000024 /* ServiceManagement.framework in Frameworks */,
+				C10000000000000000000025 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000021 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C10000000000000000000050 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10000000000000000000060 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000061 /* App */,
+				A10000000000000000000062 /* Daemon */,
+				A10000000000000000000063 /* Shared */,
+				A10000000000000000000064 /* StayAwakeCore */,
+				A10000000000000000000066 /* Distribution */,
+				A10000000000000000000067 /* Frameworks */,
+				A10000000000000000000065 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000061 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000070 /* main.swift */,
+				A10000000000000000000071 /* DaemonClient.swift */,
+				A10000000000000000000072 /* Uninstall.swift */,
+				A10000000000000000000077 /* Localizable.strings */,
+				A10000000000000000000073 /* Info.plist */,
+				A10000000000000000000074 /* StayAwake.entitlements */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000062 /* Daemon */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000080 /* main.swift */,
+				A10000000000000000000081 /* PMSetRunner.swift */,
+				A10000000000000000000082 /* com.milsinery.stay-awake.daemon.plist */,
+				A10000000000000000000084 /* Info.plist */,
+				A10000000000000000000083 /* StayAwakeDaemon.entitlements */,
+			);
+			path = Daemon;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000063 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000090 /* XPCContract.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000064 /* StayAwakeCore */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000A1 /* Schedule.swift */,
+				A100000000000000000000A2 /* Disablesleep.swift */,
+				A100000000000000000000A3 /* XPCClientRequirement.swift */,
+			);
+			path = Sources/StayAwakeCore;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000065 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000004 /* Stay Awake.app */,
+				A10000000000000000000005 /* StayAwakeDaemon */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000066 /* Distribution */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000C1 /* ExportOptions.plist */,
+			);
+			path = Distribution;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000067 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000B1 /* AppKit.framework */,
+				A100000000000000000000B2 /* SwiftUI.framework */,
+				A100000000000000000000B3 /* CoreWLAN.framework */,
+				A100000000000000000000B4 /* IOKit.framework */,
+				A100000000000000000000B5 /* ServiceManagement.framework */,
+				A100000000000000000000B6 /* Carbon.framework */,
+				A100000000000000000000B7 /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10000000000000000000002 /* StayAwake */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10000000000000000000041 /* Build configuration list for PBXNativeTarget "StayAwake" */;
+			buildPhases = (
+				A10000000000000000000010 /* Sources */,
+				A10000000000000000000011 /* Frameworks */,
+				A10000000000000000000012 /* Resources */,
+				A10000000000000000000013 /* Copy Daemon */,
+				A10000000000000000000014 /* Copy Launch Daemon Plist */,
+				A10000000000000000000015 /* Generate Icon */,
+				A10000000000000000000016 /* Verify Embedded Helper */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A10000000000000000000030 /* PBXTargetDependency */,
+			);
+			name = StayAwake;
+			productName = StayAwake;
+			productReference = A10000000000000000000004 /* Stay Awake.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A10000000000000000000003 /* StayAwakeDaemon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10000000000000000000042 /* Build configuration list for PBXNativeTarget "StayAwakeDaemon" */;
+			buildPhases = (
+				A10000000000000000000020 /* Sources */,
+				A10000000000000000000021 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StayAwakeDaemon;
+			productName = StayAwakeDaemon;
+			productReference = A10000000000000000000005 /* StayAwakeDaemon */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A10000000000000000000002 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					A10000000000000000000003 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A10000000000000000000040 /* Build configuration list for PBXProject "StayAwake" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				ru,
+				Base,
+			);
+			mainGroup = A10000000000000000000060;
+			productRefGroup = A10000000000000000000065 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000002 /* StayAwake */,
+				A10000000000000000000003 /* StayAwakeDaemon */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000000000000000000012 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C10000000000000000000010 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A10000000000000000000015 /* Generate Icon */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Icon";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "\"${SRCROOT}/scripts/generate-icon.sh\"\n";
+		};
+		A10000000000000000000016 /* Verify Embedded Helper */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify Embedded Helper";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "test -x \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/MacOS/StayAwake\"\ntest -f \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Library/LaunchDaemons/com.milsinery.stay-awake.daemon.plist\"\ntest -x \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/MacOS/StayAwakeDaemon\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10000000000000000000010 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C10000000000000000000001 /* main.swift in Sources */,
+				C10000000000000000000002 /* DaemonClient.swift in Sources */,
+				C10000000000000000000003 /* Uninstall.swift in Sources */,
+				C10000000000000000000004 /* XPCContract.swift in Sources */,
+				C10000000000000000000005 /* Schedule.swift in Sources */,
+				C10000000000000000000006 /* Disablesleep.swift in Sources */,
+				C10000000000000000000007 /* XPCClientRequirement.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C10000000000000000000040 /* main.swift in Sources */,
+				C10000000000000000000041 /* PMSetRunner.swift in Sources */,
+				C10000000000000000000042 /* XPCContract.swift in Sources */,
+				C10000000000000000000043 /* Schedule.swift in Sources */,
+				C10000000000000000000044 /* Disablesleep.swift in Sources */,
+				C10000000000000000000045 /* XPCClientRequirement.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A10000000000000000000030 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A10000000000000000000003 /* StayAwakeDaemon */;
+			targetProxy = A10000000000000000000031 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A10000000000000000000077 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A10000000000000000000075 /* en */,
+				A10000000000000000000076 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A10000000000000000000050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = CA23Z5CN46;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A10000000000000000000051 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = CA23Z5CN46;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A10000000000000000000052 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = App/StayAwake.entitlements;
+				ENABLE_APP_SANDBOX = NO;
+				EXECUTABLE_NAME = StayAwake;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milsinery.stay-awake;
+				PRODUCT_NAME = "Stay Awake";
+			};
+			name = Debug;
+		};
+		A10000000000000000000053 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = App/StayAwake.entitlements;
+				ENABLE_APP_SANDBOX = NO;
+				EXECUTABLE_NAME = StayAwake;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milsinery.stay-awake;
+				PRODUCT_NAME = "Stay Awake";
+			};
+			name = Release;
+		};
+		A10000000000000000000054 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Daemon/StayAwakeDaemon.entitlements;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Daemon/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.milsinery.stay-awake.daemon;
+				PRODUCT_NAME = StayAwakeDaemon;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A10000000000000000000055 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Daemon/StayAwakeDaemon.entitlements;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Daemon/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.milsinery.stay-awake.daemon;
+				PRODUCT_NAME = StayAwakeDaemon;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10000000000000000000040 /* Build configuration list for PBXProject "StayAwake" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000050 /* Debug */,
+				A10000000000000000000051 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000041 /* Build configuration list for PBXNativeTarget "StayAwake" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000052 /* Debug */,
+				A10000000000000000000053 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000042 /* Build configuration list for PBXNativeTarget "StayAwakeDaemon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000054 /* Debug */,
+				A10000000000000000000055 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A10000000000000000000001 /* Project object */;
+}
